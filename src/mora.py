@@ -1,4 +1,6 @@
 import time
+import uuid
+
 import torch
 from diffusers import StableVideoDiffusionPipeline, DiffusionPipeline
 from diffusers.utils import load_image, export_to_video
@@ -93,8 +95,9 @@ def generate_and_concatenate_videos(initial_image_path, pipe, num_iterations=60)
     final_clip = concatenate_videoclips(clips)
 
     # Save the final video
-    final_clip.write_videofile("final_output_video.mp4")
-    return "final_output_video.mp4"
+    final_output_video = f'{uuid.uuid4()}.mp4'
+    final_clip.write_videofile(final_output_video)
+    return final_output_video
 
 
 if __name__ == "__main__":
