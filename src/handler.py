@@ -14,7 +14,7 @@ from diffusers import PixArtAlphaPipeline
 from runpod.serverless.modules.rp_logger import RunPodLogger
 from runpod.serverless.utils.rp_validator import validate
 
-from .mora import load_models, Get_image, generate_and_concatenate_videos
+from mora import load_models, Get_image, generate_and_concatenate_videos
 
 logger = RunPodLogger()
 
