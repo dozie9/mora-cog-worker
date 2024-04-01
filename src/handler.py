@@ -35,7 +35,7 @@ INPUT_SCHEMA = {
     "prompt": {
         "type": str,
         "title": "Prompt",
-        "default": "With the style of van gogh, A young couple dances under the moonlight by the lake.",
+        "default": "A boy",
         "required": True,
         "description": "Prompt for video generation."
     }
