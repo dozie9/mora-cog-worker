@@ -37,22 +37,23 @@ def load_models():
     return pipe, base, refiner, n_steps, high_noise_frac
 
 
-def Get_image(prompt, base, refiner, n_steps, high_noise_frac, image_path):
+def Get_image(prompt, base, refiner, n_steps, high_noise_frac, dim, image_path):
     # Run both experts
+    width, height = dim
     image = base(
         prompt=prompt,
         num_inference_steps=n_steps,
         denoising_end=high_noise_frac,
-        height=576,
-        width=1024,
+        height=height,
+        width=width,
         output_type="latent",
     ).images
     image = refiner(
         prompt=prompt,
         num_inference_steps=n_steps,
         denoising_start=high_noise_frac,
-        height=576,
-        width=1024,
+        height=height,
+        width=width,
         image=image,
     ).images[0]
     image.save(image_path)
@@ -71,13 +72,13 @@ def Get_Last_Frame(video_path, output_image_path):
     return output_image_path # last_frame_image
 
 
-def generate_and_concatenate_videos(initial_image_path, pipe, num_iterations=60):
+def generate_and_concatenate_videos(initial_image_path, pipe, dim=(1024, 576), num_iterations=60):
     video_paths = []  # To keep track of all generated video paths
     current_image_path = initial_image_path
 
     for iteration in range(num_iterations):
         # Generate frames based on the current image
-        image = Image.open(current_image_path).resize((1024, 576))
+        image = Image.open(current_image_path).resize(dim)
         seed = int(time.time())
         torch.manual_seed(seed)
         frames = pipe(image, decode_chunk_size=12, generator=torch.Generator(), motion_bucket_id=127).frames[0]

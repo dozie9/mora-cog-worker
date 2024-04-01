@@ -9,8 +9,8 @@ import requests
 from requests.adapters import HTTPAdapter, Retry
 from firebase_admin import credentials, initialize_app, storage, firestore
 
-import torch
-from diffusers import PixArtAlphaPipeline
+# import torch
+# from diffusers import PixArtAlphaPipeline
 from runpod.serverless.modules.rp_logger import RunPodLogger
 from runpod.serverless.utils.rp_validator import validate
 
@@ -38,6 +38,12 @@ INPUT_SCHEMA = {
         "default": "A boy",
         "required": True,
         "description": "Prompt for video generation."
+    },
+    "orientation": {
+        "type": str,
+        "required": False,
+        "constraints": lambda orientation: orientation in ['vertical', 'horizontal'],
+        "default": "vertical"
     }
 }
 
@@ -45,6 +51,18 @@ INPUT_SCHEMA = {
 def get_extension_from_mime(mime_type):
     extension = mimetypes.guess_extension(mime_type)
     return extension
+
+
+def get_dimension(orientation):
+
+    if orientation == 'vertical':
+        width = 576
+        height = 1024
+        return width, height
+    elif orientation == 'horizontal':
+        width = 1024
+        height = 576
+        return width, height
 
 
 def upload_video(filename):
@@ -113,13 +131,14 @@ def run_inference(inference_request):
 
     # Example usage
     # Get_image("A boy", base, refiner, n_steps, high_noise_frac)
-    img_obj = Get_image(prompt, base, refiner, n_steps, high_noise_frac, image_path)
+    dim = get_dimension(inference_request['orientation'])
+    img_obj = Get_image(prompt, base, refiner, n_steps, high_noise_frac, dim, image_path)
     logger.info('Image path: {}'.format(image_path))
     logger.info(img_obj)
     logger.info(f'Image exists: {os.path.isfile(image_path)}')
     logger.info('-' * 20)
 
-    output_file = generate_and_concatenate_videos(image_path, pipe, 3)
+    output_file = generate_and_concatenate_videos(image_path, pipe, dim, 4)
     return output_file
 
 
