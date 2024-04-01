@@ -66,7 +66,7 @@ def Get_Last_Frame(video_path, output_image_path):
     # Now, we save the last frame as an image using PIL
     last_frame_image = Image.fromarray(last_frame)
     last_frame_image.save(output_image_path)
-    return last_frame_image
+    return output_image_path # last_frame_image
 
 
 def generate_and_concatenate_videos(initial_image_path, pipe, num_iterations=60):
