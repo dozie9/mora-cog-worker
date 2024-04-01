@@ -129,7 +129,7 @@ def handler(event):
 
     valid_input = validated_input['validated_input']
 
-    result = run_inference({"input": valid_input})
+    result = run_inference(valid_input)
     url = upload_video(result)
 
     return url
