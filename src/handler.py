@@ -136,7 +136,7 @@ def handler(event):
 
 
 if __name__ == "__main__":
-    wait_for_service(url=f'{LOCAL_URL}/health-check')
+    # wait_for_service(url=f'{LOCAL_URL}/health-check')
 
     print("Cog API Service is ready. Starting RunPod serverless handler...")
 
