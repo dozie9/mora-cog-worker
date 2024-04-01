@@ -113,7 +113,7 @@ def run_inference(inference_request):
 
     # Example usage
     # Get_image("A boy", base, refiner, n_steps, high_noise_frac)
-    Get_image(prompt, base, refiner, n_steps, high_noise_frac)
+    Get_image(prompt, base, refiner, n_steps, high_noise_frac, image_path)
 
     output_file = generate_and_concatenate_videos(image_path, pipe, 3)
     return output_file
