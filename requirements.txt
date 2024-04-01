@@ -3,6 +3,7 @@ transformers
 sentencepiece
 accelerate
 runpod
+Pillow
 firebase==4.0.1
 firebase-admin==6.4.0
 moviepy
