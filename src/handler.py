@@ -102,10 +102,20 @@ def run_inference(inference_request):
     prompt = inference_request["prompt"]
     pipe, base, refiner, n_steps, high_noise_frac = load_models()
 
+    # Get the current directory
+    current_directory = os.getcwd()
+
+    # Define the filename of the image file
+    image_filename = "image.png"
+
+    # Create the full path to the image file in the current directory
+    image_path = os.path.join(current_directory, image_filename)
+
     # Example usage
     # Get_image("A boy", base, refiner, n_steps, high_noise_frac)
     Get_image(prompt, base, refiner, n_steps, high_noise_frac)
-    output_file = generate_and_concatenate_videos("image.png", pipe, 3)
+
+    output_file = generate_and_concatenate_videos(image_path, pipe, 3)
     return output_file
 
 

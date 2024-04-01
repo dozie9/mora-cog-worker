@@ -35,7 +35,7 @@ def load_models():
     return pipe, base, refiner, n_steps, high_noise_frac
 
 
-def Get_image(prompt, base, refiner, n_steps, high_noise_frac):
+def Get_image(prompt, base, refiner, n_steps, high_noise_frac, image_path):
     # Run both experts
     image = base(
         prompt=prompt,
@@ -53,7 +53,7 @@ def Get_image(prompt, base, refiner, n_steps, high_noise_frac):
         width=1024,
         image=image,
     ).images[0]
-    image.save('image.png')
+    image.save(image_path)
     return image
 
 
